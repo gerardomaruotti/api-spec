@@ -1,0 +1,233 @@
+openapi: 3.1.1
+info:
+  title: Polito Students API - Students Domain
+  version: 2.2.3
+  description: Student-specific APIs (student profile, exams, lectures, ESC, tickets, job offers, offering, surveys).
+  license:
+    name: CC BY-NC 4.0
+    url: https://creativecommons.org/licenses/by-nc/4.0/
+servers:
+- url: https://app.didattica.polito.it/api
+  description: Production server (uses live data)
+- url: https://app.didattica.polito.it/mock/api
+  description: Mock server (uses example data)
+security:
+- bearerAuth: []
+tags:
+- name: Students - Auth
+  description: Funzionalità di autenticazione specifiche per studenti.
+- name: Students - Student
+  description: Operazioni sul profilo studente.
+- name: Students - Exams
+  description: Gestione prenotazioni e informazioni sugli appelli d'esame.
+- name: Students - Lectures
+  description: Calendario lezioni, esercitazioni e aule virtuali.
+- name: Students - Esc
+  description: Gestione della European Student Card.
+- name: Students - Tickets
+  description: Apertura e monitoraggio ticket di supporto.
+- name: Students - Job offers
+  description: Consultazione offerte di lavoro e opportunità di carriera.
+- name: Students - Offering
+  description: Navigazione dell'offerta formativa e dei corsi di laurea.
+- name: Students - Surveys
+  description: Questionari e rilevazioni rivolte agli studenti.
+x-tagGroups:
+- name: Students
+  tags:
+  - Students - Auth
+  - Students - Student
+  - Students - Exams
+  - Students - Lectures
+  - Students - Esc
+  - Students - Tickets
+  - Students - Job offers
+  - Students - Offering
+  - Students - Surveys
+paths:
+  /auth/switch-career:
+    $ref: './paths/students/auth.yaml#/~1auth~1switch-career'
+  /esc:
+    $ref: './paths/students/esc.yaml#/~1esc'
+  /esc/create:
+    $ref: './paths/students/esc.yaml#/~1esc~1create'
+  /exams:
+    $ref: './paths/students/exams.yaml#/~1exams'
+  /exams/{examId}/booking:
+    $ref: './paths/students/exams.yaml#/~1exams~1{examId}~1booking'
+  /exams/{examId}/rescheduleRequest:
+    $ref: './paths/students/exams.yaml#/~1exams~1{examId}~1rescheduleRequest'
+  /grades:
+    $ref: './paths/students/student.yaml#/~1grades'
+  /job-offers:
+    $ref: './paths/students/job-offers.yaml#/~1job-offers'
+  /job-offers/{jobOfferId}:
+    $ref: './paths/students/job-offers.yaml#/~1job-offers~1{jobOfferId}'
+  /lectures:
+    $ref: './paths/students/lectures.yaml#/~1lectures'
+  /me:
+    $ref: './paths/students/student.yaml#/~1me'
+  /offering:
+    $ref: './paths/students/offering.yaml#/~1offering'
+  /offering/courses/{courseShortcode}:
+    $ref: './paths/students/offering.yaml#/~1offering~1courses~1{courseShortcode}'
+  /offering/courses/{courseShortcode}/statistics:
+    $ref: './paths/students/offering.yaml#/~1offering~1courses~1{courseShortcode}~1statistics'
+  /offering/degrees/{degreeId}:
+    $ref: './paths/students/offering.yaml#/~1offering~1degrees~1{degreeId}'
+  /provisional-grades:
+    $ref: './paths/students/student.yaml#/~1provisional-grades'
+  /provisional-grades/{provisionalGradeId}/accept:
+    $ref: './paths/students/student.yaml#/~1provisional-grades~1{provisionalGradeId}~1accept'
+  /provisional-grades/{provisionalGradeId}/reject:
+    $ref: './paths/students/student.yaml#/~1provisional-grades~1{provisionalGradeId}~1reject'
+  /surveys:
+    $ref: './paths/students/surveys.yaml#/~1surveys'
+  /ticket-faqs:
+    $ref: './paths/students/tickets.yaml#/~1ticket-faqs'
+  /ticket-topics:
+    $ref: './paths/students/tickets.yaml#/~1ticket-topics'
+  /tickets:
+    $ref: './paths/students/tickets.yaml#/~1tickets'
+  /tickets/{ticketId}:
+    $ref: './paths/students/tickets.yaml#/~1tickets~1{ticketId}'
+  /tickets/{ticketId}/attachments/{attachmentId}:
+    $ref: './paths/students/tickets.yaml#/~1tickets~1{ticketId}~1attachments~1{attachmentId}'
+  /tickets/{ticketId}/close:
+    $ref: './paths/students/tickets.yaml#/~1tickets~1{ticketId}~1close'
+  /tickets/{ticketId}/read:
+    $ref: './paths/students/tickets.yaml#/~1tickets~1{ticketId}~1read'
+  /tickets/{ticketId}/replies:
+    $ref: './paths/students/tickets.yaml#/~1tickets~1{ticketId}~1replies'
+  /tickets/{ticketId}/replies/{replyId}/attachments/{attachmentId}:
+    $ref: './paths/students/tickets.yaml#/~1tickets~1{ticketId}~1replies~1{replyId}~1attachments~1{attachmentId}'
+components:
+  securitySchemes:
+    bearerAuth:
+      $ref: './components/shared/security-schemes.yaml#/bearerAuth'
+  parameters:
+    acceptLanguageHeader:
+      $ref: './components/shared/parameters.yaml#/acceptLanguageHeader'
+    PageParam:
+      $ref: './components/shared/parameters.yaml#/PageParam'
+    PageSizeParam:
+      $ref: './components/shared/parameters.yaml#/PageSizeParam'
+    ExamId:
+      $ref: './components/students-components.yaml#/parameters/ExamId'
+    ticketIdParam:
+      $ref: './components/students-components.yaml#/parameters/ticketIdParam'
+    ticketReplyIdParam:
+      $ref: './components/students-components.yaml#/parameters/ticketReplyIdParam'
+    ticketAttachmentIdParam:
+      $ref: './components/students-components.yaml#/parameters/ticketAttachmentIdParam'
+    jobOfferIdParam:
+      $ref: './components/students-components.yaml#/parameters/jobOfferIdParam'
+    degreeIdParam:
+      $ref: './components/students-components.yaml#/parameters/degreeIdParam'
+    courseShortcodeParam:
+      $ref: './components/students-components.yaml#/parameters/courseShortcodeParam'
+    provisionalGradeIdParam:
+      $ref: './components/students-components.yaml#/parameters/provisionalGradeIdParam'
+    yearQueryParam:
+      $ref: './components/students-components.yaml#/parameters/yearQueryParam'
+    teacherIdQueryParam:
+      $ref: './components/students-components.yaml#/parameters/teacherIdQueryParam'
+  responses:
+    BadRequestResponse:
+      $ref: './components/shared/responses.yaml#/BadRequestResponse'
+    ConflictResponse:
+      $ref: './components/shared/responses.yaml#/ConflictResponse'
+    CreatedAckResponse:
+      $ref: './components/shared/responses.yaml#/CreatedAckResponse'
+    ErrorResponse:
+      $ref: './components/shared/responses.yaml#/ErrorResponse'
+    ErrorEscResponse:
+      $ref: './components/shared/responses.yaml#/ErrorEscResponse'
+    NotFoundResponse:
+      $ref: './components/shared/responses.yaml#/NotFoundResponse'
+    UnauthorizedResponse:
+      $ref: './components/shared/responses.yaml#/UnauthorizedResponse'
+  schemas:
+    # Import all students schemas
+    CourseHours:
+      $ref: './components/students-components.yaml#/schemas/CourseHours'
+    CourseStatistics:
+      $ref: './components/students-components.yaml#/schemas/CourseStatistics'
+    CreateTicketRequest:
+      $ref: './components/students-components.yaml#/schemas/CreateTicketRequest'
+    Deadline:
+      $ref: './components/students-components.yaml#/schemas/Deadline'
+    Degree:
+      $ref: './components/students-components.yaml#/schemas/Degree'
+    DegreeOverview:
+      $ref: './components/students-components.yaml#/schemas/DegreeOverview'
+    EuropeanStudentCard:
+      $ref: './components/students-components.yaml#/schemas/EuropeanStudentCard'
+    ExamGrade:
+      $ref: './components/students-components.yaml#/schemas/ExamGrade'
+    GradeCount:
+      $ref: './components/students-components.yaml#/schemas/GradeCount'
+    Guide:
+      $ref: './components/students-components.yaml#/schemas/Guide'
+    GuideField:
+      $ref: './components/students-components.yaml#/schemas/GuideField'
+    GuideSection:
+      $ref: './components/students-components.yaml#/schemas/GuideSection'
+    JobOffer:
+      $ref: './components/students-components.yaml#/schemas/JobOffer'
+    JobOfferOverview:
+      $ref: './components/students-components.yaml#/schemas/JobOfferOverview'
+    Lecture:
+      $ref: './components/students-components.yaml#/schemas/Lecture'
+    OfferingClass:
+      $ref: './components/students-components.yaml#/schemas/OfferingClass'
+    OfferingCourse:
+      $ref: './components/students-components.yaml#/schemas/OfferingCourse'
+    OfferingCourseOverview:
+      $ref: './components/students-components.yaml#/schemas/OfferingCourseOverview'
+    OfferingCourseStaff:
+      $ref: './components/students-components.yaml#/schemas/OfferingCourseStaff'
+    PreviousYearsToCompare:
+      $ref: './components/students-components.yaml#/schemas/PreviousYearsToCompare'
+    ProvisionalGrade:
+      $ref: './components/students-components.yaml#/schemas/ProvisionalGrade'
+    ProvisionalGradeState:
+      $ref: './components/students-components.yaml#/schemas/ProvisionalGradeState'
+    RelatedVirtualClassroom:
+      $ref: './components/students-components.yaml#/schemas/RelatedVirtualClassroom'
+    ReplyTicketRequest:
+      $ref: './components/students-components.yaml#/schemas/ReplyTicketRequest'
+    Student:
+      $ref: './components/students-components.yaml#/schemas/Student'
+    Survey:
+      $ref: './components/students-components.yaml#/schemas/Survey'
+    SurveyCourseRef:
+      $ref: './components/students-components.yaml#/schemas/SurveyCourseRef'
+    SurveyTaxonomy:
+      $ref: './components/students-components.yaml#/schemas/SurveyTaxonomy'
+    Ticket:
+      $ref: './components/students-components.yaml#/schemas/Ticket'
+    TicketAttachment:
+      $ref: './components/students-components.yaml#/schemas/TicketAttachment'
+    TicketFAQ:
+      $ref: './components/students-components.yaml#/schemas/TicketFAQ'
+    TicketOverview:
+      $ref: './components/students-components.yaml#/schemas/TicketOverview'
+    TicketReply:
+      $ref: './components/students-components.yaml#/schemas/TicketReply'
+    TicketStatus:
+      $ref: './components/students-components.yaml#/schemas/TicketStatus'
+    TicketSubtopic:
+      $ref: './components/students-components.yaml#/schemas/TicketSubtopic'
+    TicketTopic:
+      $ref: './components/students-components.yaml#/schemas/TicketTopic'
+    Track:
+      $ref: './components/students-components.yaml#/schemas/Track'
+    VideoLecture:
+      $ref: './components/students-components.yaml#/schemas/VideoLecture'
+    VirtualClassroom:
+      $ref: './components/students-components.yaml#/schemas/VirtualClassroom'
+    VirtualClassroomLive:
+      $ref: './components/students-components.yaml#/schemas/VirtualClassroomLive'
+    YearStatistics:
+      $ref: './components/students-components.yaml#/schemas/YearStatistics'

@@ -1,0 +1,375 @@
+openapi: 3.1.1
+info:
+  title: Polito Students API - Common Domain
+  version: 2.2.3
+  description: Common domain APIs shared across all user types (authentication, profile, news, places, emergencies, faults, people, bookings, courses).
+  license:
+    name: CC BY-NC 4.0
+    url: https://creativecommons.org/licenses/by-nc/4.0/
+servers:
+- url: https://app.didattica.polito.it/api
+  description: Production server (uses live data)
+- url: https://app.didattica.polito.it/mock/api
+  description: Mock server (uses example data)
+security:
+- bearerAuth: []
+tags:
+- name: Common - Auth
+  description: Autenticazione e servizi collegati.
+- name: Common - Profile
+  description: Profilo utente, messaggi, notifiche e preferenze.
+- name: Common - News
+  description: News dell'Ateneo.
+- name: Common - Places
+  description: Mappa e POI di ateneo.
+- name: Common - Emergencies
+  description: Numeri e riferimenti di emergenza.
+- name: Common - Faults
+  description: Segnalazione guasti e tracciamento stato.
+- name: Common - People
+  description: Ricerca e dettaglio contatti della comunità di ateneo.
+- name: Common - Bookings
+  description: Prenotazioni aule/laboratori e slot disponibili.
+- name: Common - Courses
+  description: Consultazione condivisa delle informazioni sui corsi.
+x-tagGroups:
+- name: Common
+  tags:
+  - Common - Auth
+  - Common - Profile
+  - Common - News
+  - Common - Places
+  - Common - Emergencies
+  - Common - Faults
+  - Common - People
+  - Common - Bookings
+  - Common - Courses
+paths:
+  /auth/client:
+    $ref: './paths/common/auth.yaml#/~1auth~1client'
+  /auth/login:
+    $ref: './paths/common/auth.yaml#/~1auth~1login'
+  /auth/logout:
+    $ref: './paths/common/auth.yaml#/~1auth~1logout'
+  /auth/mfa/challenge:
+    $ref: './paths/common/auth.yaml#/~1auth~1mfa~1challenge'
+  /auth/mfa/enrol:
+    $ref: './paths/common/auth.yaml#/~1auth~1mfa~1enrol'
+  /auth/mfa/status:
+    $ref: './paths/common/auth.yaml#/~1auth~1mfa~1status'
+  /auth/mfa/validate:
+    $ref: './paths/common/auth.yaml#/~1auth~1mfa~1validate'
+  /auth/serviceLink/liveClass/{meetingID}:
+    $ref: './paths/common/auth.yaml#/~1auth~1serviceLink~1liveClass~1{meetingID}'
+  /auth/serviceLink/mail:
+    $ref: './paths/common/auth.yaml#/~1auth~1serviceLink~1mail'
+  /auth/serviceLink/moodle/{course}:
+    $ref: './paths/common/auth.yaml#/~1auth~1serviceLink~1moodle~1{course}'
+  /booking-topics:
+    $ref: './paths/common/bookings.yaml#/~1booking-topics'
+  /booking-topics/{bookingTopicId}/slots:
+    $ref: './paths/common/bookings.yaml#/~1booking-topics~1{bookingTopicId}~1slots'
+  /booking-topics/{bookingTopicId}/slots/{bookingSlotId}/seats:
+    $ref: './paths/common/bookings.yaml#/~1booking-topics~1{bookingTopicId}~1slots~1{bookingSlotId}~1seats'
+  /bookings:
+    $ref: './paths/common/bookings.yaml#/~1bookings'
+  /bookings/{bookingId}:
+    $ref: './paths/common/bookings.yaml#/~1bookings~1{bookingId}'
+  /courses:
+    $ref: './paths/common/courses.yaml#/~1courses'
+  /courses/{courseId}:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}'
+  /courses/{courseId}/assignments:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1assignments'
+  /courses/{courseId}/assignments/{assignmentId}:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1assignments~1{assignmentId}'
+  /courses/{courseId}/files:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1files'
+  /courses/{courseId}/files/{fileId}:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1files~1{fileId}'
+  /courses/{courseId}/guide:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1guide'
+  /courses/{courseId}/lectures:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1lectures'
+  /courses/{courseId}/lectures/{lectureId}:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1lectures~1{lectureId}'
+  /courses/{courseId}/nextLecture:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1nextLecture'
+  /courses/{courseId}/notices:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1notices'
+  /courses/{courseId}/notices/{noticeId}:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1notices~1{noticeId}'
+  /courses/{courseId}/preferences:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1preferences'
+  /courses/{courseId}/videolectures:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1videolectures'
+  /courses/{courseId}/virtual-classrooms:
+    $ref: './paths/common/courses.yaml#/~1courses~1{courseId}~1virtual-classrooms'
+  /deadlines:
+    $ref: './paths/common/profile.yaml#/~1deadlines'
+  /emergencies:
+    $ref: './paths/common/emergencies.yaml#/~1emergencies'
+  /emergencies/{emergencyId}:
+    $ref: './paths/common/emergencies.yaml#/~1emergencies~1{emergencyId}'
+  /emergencies/contacts:
+    $ref: './paths/common/emergencies.yaml#/~1emergencies~1contacts'
+  /faults:
+    $ref: './paths/common/faults.yaml#/~1faults'
+  /faults/{faultId}:
+    $ref: './paths/common/faults.yaml#/~1faults~1{faultId}'
+  /guides:
+    $ref: './paths/common/profile.yaml#/~1guides'
+  /messages:
+    $ref: './paths/common/profile.yaml#/~1messages'
+  /messages/{messageId}:
+    $ref: './paths/common/profile.yaml#/~1messages~1{messageId}'
+  /messages/{messageId}/read:
+    $ref: './paths/common/profile.yaml#/~1messages~1{messageId}~1read'
+  /news:
+    $ref: './paths/common/news.yaml#/~1news'
+  /news/{newsItemId}:
+    $ref: './paths/common/news.yaml#/~1news~1{newsItemId}'
+  /notifications:
+    $ref: './paths/common/profile.yaml#/~1notifications'
+  /notifications/preferences:
+    $ref: './paths/common/profile.yaml#/~1notifications~1preferences'
+  /notifications/{notificationId}:
+    $ref: './paths/common/profile.yaml#/~1notifications~1{notificationId}'
+  /notifications/{notificationId}/read:
+    $ref: './paths/common/profile.yaml#/~1notifications~1{notificationId}~1read'
+  /people:
+    $ref: './paths/common/people.yaml#/~1people'
+  /people/{personId}:
+    $ref: './paths/common/people.yaml#/~1people~1{personId}'
+  /preferences:
+    $ref: './paths/common/profile.yaml#/~1preferences'
+  /unreadEmails:
+    $ref: './paths/common/profile.yaml#/~1unreadEmails'
+  /v2/place-categories:
+    $ref: './paths/common/places.yaml#/~1v2~1place-categories'
+  /v2/places:
+    $ref: './paths/common/places.yaml#/~1v2~1places'
+  /v2/places/bookings:
+    $ref: './paths/common/places.yaml#/~1v2~1places~1bookings'
+  /v2/places/{placeId}:
+    $ref: './paths/common/places.yaml#/~1v2~1places~1{placeId}'
+  /v2/sites:
+    $ref: './paths/common/places.yaml#/~1v2~1sites'
+  /v2/sites/{siteId}/buildings:
+    $ref: './paths/common/places.yaml#/~1v2~1sites~1{siteId}~1buildings'
+  /v2/sites/{siteId}/free-rooms:
+    $ref: './paths/common/places.yaml#/~1v2~1sites~1{siteId}~1free-rooms'
+components:
+  securitySchemes:
+    bearerAuth:
+      $ref: './components/shared/security-schemes.yaml#/bearerAuth'
+  parameters:
+    acceptLanguageHeader:
+      $ref: './components/shared/parameters.yaml#/acceptLanguageHeader'
+    PageParam:
+      $ref: './components/shared/parameters.yaml#/PageParam'
+    PageSizeParam:
+      $ref: './components/shared/parameters.yaml#/PageSizeParam'
+    EmergencyId:
+      $ref: './components/common-components.yaml#/parameters/EmergencyId'
+    FaultId:
+      $ref: './components/common-components.yaml#/parameters/FaultId'
+    pathPlaceId:
+      $ref: './components/common-components.yaml#/parameters/pathPlaceId'
+    pathSiteId:
+      $ref: './components/common-components.yaml#/parameters/pathSiteId'
+    queryBuildingId:
+      $ref: './components/common-components.yaml#/parameters/queryBuildingId'
+    queryFloorId:
+      $ref: './components/common-components.yaml#/parameters/queryFloorId'
+    queryPlaceCategoryId:
+      $ref: './components/common-components.yaml#/parameters/queryPlaceCategoryId'
+    queryPlaceSubCategoryId:
+      $ref: './components/common-components.yaml#/parameters/queryPlaceSubCategoryId'
+    querySiteId:
+      $ref: './components/common-components.yaml#/parameters/querySiteId'
+    courseIdParam:
+      $ref: './components/common-components.yaml#/parameters/courseIdParam'
+    assignmentIdParam:
+      $ref: './components/common-components.yaml#/parameters/assignmentIdParam'
+    messageIdParam:
+      $ref: './components/common-components.yaml#/parameters/messageIdParam'
+    notificationIdParam:
+      $ref: './components/common-components.yaml#/parameters/notificationIdParam'
+    CourseId:
+      $ref: './components/common-components.yaml#/parameters/CourseId'
+    LectureId:
+      $ref: './components/common-components.yaml#/parameters/LectureId'
+    AssignmentId:
+      $ref: './components/common-components.yaml#/parameters/AssignmentId'
+    NoticeId:
+      $ref: './components/common-components.yaml#/parameters/NoticeId'
+    MaterialId:
+      $ref: './components/common-components.yaml#/parameters/MaterialId'
+  responses:
+    BadRequestResponse:
+      $ref: './components/shared/responses.yaml#/BadRequestResponse'
+    ConflictResponse:
+      $ref: './components/shared/responses.yaml#/ConflictResponse'
+    CreatedAckResponse:
+      $ref: './components/shared/responses.yaml#/CreatedAckResponse'
+    ErrorResponse:
+      $ref: './components/shared/responses.yaml#/ErrorResponse'
+    ErrorEscResponse:
+      $ref: './components/shared/responses.yaml#/ErrorEscResponse'
+    NotFoundResponse:
+      $ref: './components/shared/responses.yaml#/NotFoundResponse'
+    UnauthorizedResponse:
+      $ref: './components/shared/responses.yaml#/UnauthorizedResponse'
+  schemas:
+    # Import all common schemas
+    AcceptedResponse:
+      $ref: './components/common-components.yaml#/schemas/AcceptedResponse'
+    Booking:
+      $ref: './components/common-components.yaml#/schemas/Booking'
+    BookingLocationCheck:
+      $ref: './components/common-components.yaml#/schemas/BookingLocationCheck'
+    BookingPlaceRef:
+      $ref: './components/common-components.yaml#/schemas/BookingPlaceRef'
+    BookingSeatCell:
+      $ref: './components/common-components.yaml#/schemas/BookingSeatCell'
+    BookingSeats:
+      $ref: './components/common-components.yaml#/schemas/BookingSeats'
+    BookingSeatsRow:
+      $ref: './components/common-components.yaml#/schemas/BookingSeatsRow'
+    BookingSlot:
+      $ref: './components/common-components.yaml#/schemas/BookingSlot'
+    BookingSubtopic:
+      $ref: './components/common-components.yaml#/schemas/BookingSubtopic'
+    BookingSubtopicOverview:
+      $ref: './components/common-components.yaml#/schemas/BookingSubtopicOverview'
+    BookingTopic:
+      $ref: './components/common-components.yaml#/schemas/BookingTopic'
+    BookingTopicLeaf:
+      $ref: './components/common-components.yaml#/schemas/BookingTopicLeaf'
+    BookingTopicOverview:
+      $ref: './components/common-components.yaml#/schemas/BookingTopicOverview'
+    BookingVirtualPlaceRef:
+      $ref: './components/common-components.yaml#/schemas/BookingVirtualPlaceRef'
+    Building:
+      $ref: './components/common-components.yaml#/schemas/Building'
+    BuildingOverview:
+      $ref: './components/common-components.yaml#/schemas/BuildingOverview'
+    Client:
+      $ref: './components/common-components.yaml#/schemas/Client'
+    ClientVersionRequest:
+      $ref: './components/common-components.yaml#/schemas/ClientVersionRequest'
+    Course:
+      $ref: './components/common-components.yaml#/schemas/Course'
+    CourseAssignment:
+      $ref: './components/common-components.yaml#/schemas/CourseAssignment'
+    CourseAssignmentUpload:
+      $ref: './components/common-components.yaml#/schemas/CourseAssignmentUpload'
+    CourseDirectory:
+      $ref: './components/common-components.yaml#/schemas/CourseDirectory'
+    CourseDirectoryContent:
+      $ref: './components/common-components.yaml#/schemas/CourseDirectoryContent'
+    CourseDirectoryEntry:
+      $ref: './components/common-components.yaml#/schemas/CourseDirectoryEntry'
+    CourseFileOverview:
+      $ref: './components/common-components.yaml#/schemas/CourseFileOverview'
+    CourseFileUploadRequest:
+      $ref: './components/common-components.yaml#/schemas/CourseFileUploadRequest'
+    CourseGuideSection:
+      $ref: './components/common-components.yaml#/schemas/CourseGuideSection'
+    CourseNotice:
+      $ref: './components/common-components.yaml#/schemas/CourseNotice'
+    CourseOverview:
+      $ref: './components/common-components.yaml#/schemas/CourseOverview'
+    CourseOverviewBase:
+      $ref: './components/common-components.yaml#/schemas/CourseOverviewBase'
+    CoursePreferencesRequest:
+      $ref: './components/common-components.yaml#/schemas/CoursePreferencesRequest'
+    Device:
+      $ref: './components/common-components.yaml#/schemas/Device'
+    EmailBadge:
+      $ref: './components/common-components.yaml#/schemas/EmailBadge'
+    EmergencyContact:
+      $ref: './components/common-components.yaml#/schemas/EmergencyContact'
+    Error:
+      $ref: './components/common-components.yaml#/schemas/Error'
+    EscError:
+      $ref: './components/common-components.yaml#/schemas/EscError'
+    Exam:
+      $ref: './components/common-components.yaml#/schemas/Exam'
+    Fault:
+      $ref: './components/common-components.yaml#/schemas/Fault'
+    FaultCreateRequest:
+      $ref: './components/common-components.yaml#/schemas/FaultCreateRequest'
+    FcmRegistrationRequest:
+      $ref: './components/common-components.yaml#/schemas/FcmRegistrationRequest'
+    Floor:
+      $ref: './components/common-components.yaml#/schemas/Floor'
+    FreeRoom:
+      $ref: './components/common-components.yaml#/schemas/FreeRoom'
+    GeoLocation:
+      $ref: './components/common-components.yaml#/schemas/GeoLocation'
+    Identity:
+      $ref: './components/common-components.yaml#/schemas/Identity'
+    LinkToService:
+      $ref: './components/common-components.yaml#/schemas/LinkToService'
+    LoginCredentialsBasic:
+      $ref: './components/common-components.yaml#/schemas/LoginCredentialsBasic'
+    LoginCredentialsSSO:
+      $ref: './components/common-components.yaml#/schemas/LoginCredentialsSSO'
+    LoginRequest:
+      $ref: './components/common-components.yaml#/schemas/LoginRequest'
+    LoginRequestBase:
+      $ref: './components/common-components.yaml#/schemas/LoginRequestBase'
+    Message:
+      $ref: './components/common-components.yaml#/schemas/Message'
+    MessageType:
+      $ref: './components/common-components.yaml#/schemas/MessageType'
+    MfaStatusResponse:
+      $ref: './components/common-components.yaml#/schemas/MfaStatusResponse'
+    NewsItem:
+      $ref: './components/common-components.yaml#/schemas/NewsItem'
+    NewsItemExtra:
+      $ref: './components/common-components.yaml#/schemas/NewsItemExtra'
+    NewsItemOverview:
+      $ref: './components/common-components.yaml#/schemas/NewsItemOverview'
+    Notification:
+      $ref: './components/common-components.yaml#/schemas/Notification'
+    NotificationPreferences:
+      $ref: './components/common-components.yaml#/schemas/NotificationPreferences'
+    Person:
+      $ref: './components/common-components.yaml#/schemas/Person'
+    PersonCourse:
+      $ref: './components/common-components.yaml#/schemas/PersonCourse'
+    PersonOverview:
+      $ref: './components/common-components.yaml#/schemas/PersonOverview'
+    PhoneNumber:
+      $ref: './components/common-components.yaml#/schemas/PhoneNumber'
+    Place:
+      $ref: './components/common-components.yaml#/schemas/Place'
+    PlaceCategory:
+      $ref: './components/common-components.yaml#/schemas/PlaceCategory'
+    PlaceCategoryOverview:
+      $ref: './components/common-components.yaml#/schemas/PlaceCategoryOverview'
+    PlaceOverview:
+      $ref: './components/common-components.yaml#/schemas/PlaceOverview'
+    PlaceRef:
+      $ref: './components/common-components.yaml#/schemas/PlaceRef'
+    RoomOverview:
+      $ref: './components/common-components.yaml#/schemas/RoomOverview'
+    RootPlaceCategory:
+      $ref: './components/common-components.yaml#/schemas/RootPlaceCategory'
+    Site:
+      $ref: './components/common-components.yaml#/schemas/Site'
+    SiteOverview:
+      $ref: './components/common-components.yaml#/schemas/SiteOverview'
+    Teacher:
+      $ref: './components/common-components.yaml#/schemas/Teacher'
+    UpdateAssignmentRequest:
+      $ref: './components/common-components.yaml#/schemas/UpdateAssignmentRequest'
+    UpdateInfo:
+      $ref: './components/common-components.yaml#/schemas/UpdateInfo'
+    UpdateNotificationPreferencesRequest:
+      $ref: './components/common-components.yaml#/schemas/UpdateNotificationPreferencesRequest'
+    UpdatePreferencesRequest:
+      $ref: './components/common-components.yaml#/schemas/UpdatePreferencesRequest'
