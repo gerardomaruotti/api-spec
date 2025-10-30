@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Bundle OpenAPI specification
-        run: npm run bundle
+        run: npm run bundle:all
 
       - name: OpenAPI Generator Action
         uses: openapi-generators/openapitools-generator-action@v1
