@@ -1,0 +1,56 @@
+  ErrorResponse:
+    description: Server error
+    content:
+      application/json:
+        schema:
+          "$ref": "../common-components.yaml#/schemas/Error"
+  ErrorEscResponse:
+    description: Server error
+    content:
+      application/json:
+        schema:
+          allOf:
+          - "$ref": "../common-components.yaml#/schemas/Error"
+          - type: object
+            properties:
+              errors:
+                type: array
+                description: Additional error details
+                items:
+                  "$ref": "../common-components.yaml#/schemas/EscError"
+                example:
+                - code: 500
+                  message: An error occurred
+                  careerId: '123456'
+  BadRequestResponse:
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          "$ref": "../common-components.yaml#/schemas/Error"
+  UnauthorizedResponse:
+    description: Non autorizzato
+  NotFoundResponse:
+    description: Risorsa non trovata
+  ConflictResponse:
+    description: Conflitto
+  CreatedAckResponse:
+    description: Creato
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                id:
+                  type: string
+                status:
+                  type: string
+                  example: created
+              required:
+              - id
+              - status
+          required:
+          - data

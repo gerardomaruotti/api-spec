@@ -5,7 +5,16 @@
   "scripts": {
     "bundle": "swagger-cli bundle src/index.yaml -o openapi.yaml -t yaml",
     "validate": "swagger-cli validate openapi.yaml",
-    "bundle:verify": "npm run bundle && npm run validate"
+    "bundle:verify": "npm run bundle && npm run validate",
+    "bundle:common": "swagger-cli bundle src/index-common.yaml -o dist/openapi-common.yaml -t yaml",
+    "bundle:students": "swagger-cli bundle src/index-students.yaml -o dist/openapi-students.yaml -t yaml",
+    "bundle:faculty": "swagger-cli bundle src/index-faculty.yaml -o dist/openapi-faculty.yaml -t yaml",
+    "bundle:all": "npm run bundle:common && npm run bundle:students && npm run bundle:faculty && npm run bundle",
+    "validate:all": "npm run validate:common && npm run validate:students && npm run validate:faculty && npm run validate",
+    "validate:common": "swagger-cli validate dist/openapi-common.yaml",
+    "validate:students": "swagger-cli validate dist/openapi-students.yaml",
+    "validate:faculty": "swagger-cli validate dist/openapi-faculty.yaml",
+    "verify:all": "npm run bundle:all && npm run validate:all"
   },
   "devDependencies": {
     "swagger-cli": "^4.0.4"

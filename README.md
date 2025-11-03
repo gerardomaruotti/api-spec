@@ -3,14 +3,30 @@ The OpenAPI specification for the REST API of Politecnico di Torino.
 
 ## Project Structure
 
-The specification is maintained as a multi-file tree for readability:
+The specification is organized into **domain-specific indexes** to minimize merge conflicts and enable parallel development:
 
-- `src/index.yaml` — entry point referenced by tooling
-- `src/paths/` — HTTP endpoints grouped by consumer
-- `src/components/` — shared schemas, responses, parameters
-- `openapi.yaml` — generated bundle (ignored by Git; recreate locally when needed)
+```
+src/
+├── index.yaml                 # Unified entry point (DO NOT edit directly)
+├── index-common.yaml          # Common domain (auth, profile, news, places, etc.)
+├── index-students.yaml        # Students domain (exams, lectures, tickets, etc.)
+├── index-faculty.yaml         # Faculty domain (calendar, courses, exams, etc.)
+├── paths/
+│   ├── common/                # Common API endpoints
+│   ├── students/              # Student-specific endpoints
+│   └── faculty/               # Faculty-specific endpoints
+└── components/
+    ├── shared/                # Cross-domain shared (parameters, responses, security)
+    ├── common-components.yaml # Common domain schemas & parameters
+    ├── students-components.yaml # Students domain schemas & parameters
+    └── faculty-components.yaml # Faculty domain schemas & parameters
+```
 
-Always edit files under `src/`. The bundled file exists only for tooling and publishing workflows.
+### Development Approach
+
+- **Work on domain-specific indexes**: Edit `index-{domain}.yaml` for your domain
+- **DO NOT edit `src/index.yaml`**: It's the aggregator and should remain stable
+- **Generated bundles**: `openapi.yaml` and `dist/*` are ignored by Git
 
 ## Prerequisites
 
@@ -26,27 +42,67 @@ npm ci
 
 ## Development Workflow
 
-1. Edit the spec under `src/`.
-2. Bundle and validate locally:
+### For Domain-Specific Changes
+
+1. **Choose your domain** and edit the corresponding index:
+   - Common APIs → `src/index-common.yaml`
+   - Students APIs → `src/index-students.yaml`
+   - Faculty APIs → `src/index-faculty.yaml`
+
+2. **Bundle and validate your domain**:
+   ```bash
+   # For common domain
+   npm run bundle:common && npm run validate:common
+
+   # For students domain
+   npm run bundle:students && npm run validate:students
+
+   # For faculty domain
+   npm run bundle:faculty && npm run validate:faculty
+   ```
+
+3. **Validate the unified spec**:
    ```bash
    npm run bundle:verify
    ```
-   This runs `swagger-cli bundle` and `swagger-cli validate` via the scripts defined in `package.json`. The command regenerates `openapi.yaml` in-place for local tooling and client generation.
-3. Commit only the source changes:
+   This ensures your changes integrate correctly with other domains.
+
+4. **Commit your changes**:
    ```bash
-   git add src/
-   git commit -m "feat: add emergency endpoints"
+   git add src/index-{domain}.yaml
+   git add src/paths/{domain}/
+   git add src/components/{domain}-components.yaml  # if modified
+   git commit -m "feat: add emergency endpoints to common domain"
    ```
-   The generated `openapi.yaml` is ignored by Git; keep it unstaged.
-4. Open a pull request. The **Validate OpenAPI Specification** workflow runs `npm ci`, `npm run bundle`, `npm run validate`, and validates the bundled spec with `openapi-generator-cli`. The PR must pass this workflow before merging.
+   Note: `openapi.yaml` and `dist/` are gitignored.
 
-### Useful npm scripts
+5. **Open a pull request**. CI validates all domain specs and the unified bundle.
 
-| Command               | Description                                      |
-|-----------------------|--------------------------------------------------|
-| `npm run bundle`      | Produces `openapi.yaml` from the multi-file spec |
-| `npm run validate`    | Validates the current `openapi.yaml` bundle      |
-| `npm run bundle:verify` | Bundles then validates in a single step         |
+### For Changes Across Multiple Domains
+
+If your work spans multiple domains (e.g., adding a shared schema):
+
+```bash
+# Bundle and validate all domains + unified
+npm run verify:all
+```
+
+### Useful npm Scripts
+
+| Command                  | Description                                         |
+|--------------------------|-----------------------------------------------------|
+| `npm run bundle:common`  | Bundle common domain spec                           |
+| `npm run bundle:students`| Bundle students domain spec                         |
+| `npm run bundle:faculty` | Bundle faculty domain spec                          |
+| `npm run bundle:all`     | Bundle all domains + unified spec                   |
+| `npm run validate:common`| Validate common domain bundle                       |
+| `npm run validate:students`| Validate students domain bundle                   |
+| `npm run validate:faculty`| Validate faculty domain bundle                     |
+| `npm run validate:all`   | Validate all domain bundles + unified               |
+| `npm run verify:all`     | Bundle and validate everything (pre-commit check)   |
+| `npm run bundle`         | Bundle unified spec (backward compatibility)        |
+| `npm run validate`       | Validate unified bundle                             |
+| `npm run bundle:verify`  | Bundle + validate unified (quick check)             |
 
 ## How to obtain a human-readable interface
 If you are accustomed to using Postman, you can just import the .yaml file containing the specification.
@@ -79,3 +135,4 @@ You only need to specify your IP if you want them to be accessible from other de
 
 - [OAS3 Specification](http://spec.openapis.org/oas/v3.0.3)
 - [OAS3 Examples](https://github.com/OAI/OpenAPI-Specification/tree/master/examples/v3.0)
+- [OpenAPI Multi-Document Pattern](https://spec.openapis.org/oas/v3.1.0#relative-references-in-uris)

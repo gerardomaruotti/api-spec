@@ -1,0 +1,175 @@
+openapi: 3.1.1
+info:
+  title: Polito Students API - Faculty Domain
+  version: 2.2.3
+  description: Faculty-specific APIs (faculty profile, exams management, courses management, digital signature, calendar).
+  license:
+    name: CC BY-NC 4.0
+    url: https://creativecommons.org/licenses/by-nc/4.0/
+servers:
+- url: https://app.didattica.polito.it/api
+  description: Production server (uses live data)
+- url: https://app.didattica.polito.it/mock/api
+  description: Mock server (uses example data)
+security:
+- bearerAuth: []
+tags:
+- name: Faculty - Profile
+  description: Operazioni specifiche sul profilo del docente.
+- name: Faculty - Exams
+  description: Gestione appelli e iscritti lato docente.
+- name: Faculty - Courses
+  description: Gestione incarichi didattici del docente, lezioni, materiali, avvisi e collaboratori.
+- name: Faculty - Digital Signature
+  description: Elenco e firma digitale documenti.
+- name: Faculty - Calendar
+  description: Consultazione e gestione dei calendari e degli eventi dell'agenda docente.
+x-tagGroups:
+- name: Faculty
+  tags:
+  - Faculty - Profile
+  - Faculty - Exams
+  - Faculty - Courses
+  - Faculty - Digital Signature
+  - Faculty - Calendar
+paths:
+  /faculty/calendars:
+    $ref: './paths/faculty/calendar.yaml#/~1faculty~1calendars'
+  /faculty/calendars/{calendarId}:
+    $ref: './paths/faculty/calendar.yaml#/~1faculty~1calendars~1{calendarId}'
+  /faculty/calendars/{calendarId}/events:
+    $ref: './paths/faculty/calendar.yaml#/~1faculty~1calendars~1{calendarId}~1events'
+  /faculty/calendars/{calendarId}/events/{eventId}:
+    $ref: './paths/faculty/calendar.yaml#/~1faculty~1calendars~1{calendarId}~1events~1{eventId}'
+  /faculty/courses/{courseId}/collaborators:
+    $ref: './paths/faculty/courses.yaml#/~1faculty~1courses~1{courseId}~1collaborators'
+  /faculty/courses/{courseId}/collaborators/{collaboratorId}:
+    $ref: './paths/faculty/courses.yaml#/~1faculty~1courses~1{courseId}~1collaborators~1{collaboratorId}'
+  /faculty/courses/{courseId}/message:
+    $ref: './paths/faculty/courses.yaml#/~1faculty~1courses~1{courseId}~1message'
+  /faculty/courses/{courseId}/students:
+    $ref: './paths/faculty/courses.yaml#/~1faculty~1courses~1{courseId}~1students'
+  /faculty/exams:
+    $ref: './paths/faculty/exams.yaml#/~1faculty~1exams'
+  /faculty/exams/{examId}:
+    $ref: './paths/faculty/exams.yaml#/~1faculty~1exams~1{examId}'
+  /faculty/exams/{examId}/notify:
+    $ref: './paths/faculty/exams.yaml#/~1faculty~1exams~1{examId}~1notify'
+  /faculty/exams/{examId}/students/{studentId}:
+    $ref: './paths/faculty/exams.yaml#/~1faculty~1exams~1{examId}~1students~1{studentId}'
+  /faculty/me:
+    $ref: './paths/faculty/profile.yaml#/~1faculty~1me'
+  /faculty/me/publications:
+    $ref: './paths/faculty/profile.yaml#/~1faculty~1me~1publications'
+  /faculty/me/publications/{publicationId}:
+    $ref: './paths/faculty/profile.yaml#/~1faculty~1me~1publications~1{publicationId}'
+  /faculty/signing/documents:
+    $ref: './paths/faculty/digital-signature.yaml#/~1faculty~1signing~1documents'
+  /faculty/signing/documents/{documentId}/sign:
+    $ref: './paths/faculty/digital-signature.yaml#/~1faculty~1signing~1documents~1{documentId}~1sign'
+components:
+  securitySchemes:
+    bearerAuth:
+      $ref: './components/shared/security-schemes.yaml#/bearerAuth'
+  parameters:
+    acceptLanguageHeader:
+      $ref: './components/shared/parameters.yaml#/acceptLanguageHeader'
+    PageParam:
+      $ref: './components/shared/parameters.yaml#/PageParam'
+    PageSizeParam:
+      $ref: './components/shared/parameters.yaml#/PageSizeParam'
+    CourseId:
+      $ref: './components/faculty-components.yaml#/parameters/CourseId'
+    LectureId:
+      $ref: './components/faculty-components.yaml#/parameters/LectureId'
+    CalendarId:
+      $ref: './components/faculty-components.yaml#/parameters/CalendarId'
+    CalendarEventId:
+      $ref: './components/faculty-components.yaml#/parameters/CalendarEventId'
+    ExamId:
+      $ref: './components/faculty-components.yaml#/parameters/ExamId'
+    StudentId:
+      $ref: './components/faculty-components.yaml#/parameters/StudentId'
+    MaterialId:
+      $ref: './components/faculty-components.yaml#/parameters/MaterialId'
+    CollaboratorId:
+      $ref: './components/faculty-components.yaml#/parameters/CollaboratorId'
+    PublicationId:
+      $ref: './components/faculty-components.yaml#/parameters/PublicationId'
+    AssignmentId:
+      $ref: './components/faculty-components.yaml#/parameters/AssignmentId'
+    NoticeId:
+      $ref: './components/faculty-components.yaml#/parameters/NoticeId'
+    DocumentId:
+      $ref: './components/faculty-components.yaml#/parameters/DocumentId'
+  responses:
+    BadRequestResponse:
+      $ref: './components/shared/responses.yaml#/BadRequestResponse'
+    ConflictResponse:
+      $ref: './components/shared/responses.yaml#/ConflictResponse'
+    CreatedAckResponse:
+      $ref: './components/shared/responses.yaml#/CreatedAckResponse'
+    ErrorResponse:
+      $ref: './components/shared/responses.yaml#/ErrorResponse'
+    NotFoundResponse:
+      $ref: './components/shared/responses.yaml#/NotFoundResponse'
+    UnauthorizedResponse:
+      $ref: './components/shared/responses.yaml#/UnauthorizedResponse'
+  schemas:
+    # Import all faculty schemas
+    Collaborator:
+      $ref: './components/faculty-components.yaml#/schemas/Collaborator'
+    CollaboratorUpsertRequest:
+      $ref: './components/faculty-components.yaml#/schemas/CollaboratorUpsertRequest'
+    CourseLecture:
+      $ref: './components/faculty-components.yaml#/schemas/CourseLecture'
+    CourseLectureStaffMember:
+      $ref: './components/faculty-components.yaml#/schemas/CourseLectureStaffMember'
+    CourseLectureStaffMemberRequest:
+      $ref: './components/faculty-components.yaml#/schemas/CourseLectureStaffMemberRequest'
+    CourseLectureUpsertRequest:
+      $ref: './components/faculty-components.yaml#/schemas/CourseLectureUpsertRequest'
+    CourseMessageRequest:
+      $ref: './components/faculty-components.yaml#/schemas/CourseMessageRequest'
+    CourseNoticeUpsertRequest:
+      $ref: './components/faculty-components.yaml#/schemas/CourseNoticeUpsertRequest'
+    ExamEnrollment:
+      $ref: './components/faculty-components.yaml#/schemas/ExamEnrollment'
+    ExamNotificationRequest:
+      $ref: './components/faculty-components.yaml#/schemas/ExamNotificationRequest'
+    FacultyCalendar:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyCalendar'
+    FacultyCalendarDetail:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyCalendarDetail'
+    FacultyCalendarEvent:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyCalendarEvent'
+    FacultyCalendarEventCreateRequest:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyCalendarEventCreateRequest'
+    FacultyCalendarEventMaterial:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyCalendarEventMaterial'
+    FacultyCalendarEventTypeEnum:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyCalendarEventTypeEnum'
+    FacultyCourseStudent:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyCourseStudent'
+    FacultyExam:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyExam'
+    FacultyProfile:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyProfile'
+    FacultyProfileUpdateRequest:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyProfileUpdateRequest'
+    FacultyPublication:
+      $ref: './components/faculty-components.yaml#/schemas/FacultyPublication'
+    PaginatedCourseLectureList:
+      $ref: './components/faculty-components.yaml#/schemas/PaginatedCourseLectureList'
+    PaginatedFacultyCalendarEventList:
+      $ref: './components/faculty-components.yaml#/schemas/PaginatedFacultyCalendarEventList'
+    PaginatedFacultyPublicationList:
+      $ref: './components/faculty-components.yaml#/schemas/PaginatedFacultyPublicationList'
+    RoomAvailability:
+      $ref: './components/faculty-components.yaml#/schemas/RoomAvailability'
+    RoomBookingRequest:
+      $ref: './components/faculty-components.yaml#/schemas/RoomBookingRequest'
+    SignableDocument:
+      $ref: './components/faculty-components.yaml#/schemas/SignableDocument'
+    SignatureStartResponse:
+      $ref: './components/faculty-components.yaml#/schemas/SignatureStartResponse'
